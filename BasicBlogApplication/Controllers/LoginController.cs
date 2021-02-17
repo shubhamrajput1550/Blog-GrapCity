@@ -1,4 +1,5 @@
 ﻿using BasicBlogApplication.Models;
+using BusinessLayer;
 using BusinessLayer.Model;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,14 @@ namespace BasicBlogApplication.Controllers
 {
     public class LoginController : ApiController
     {
+        AuthenicationService service = new AuthenicationService();
         [AllowAnonymous]
         [HttpPost]
         public IHttpActionResult Login(UserModel login)
         {
            
             IHttpActionResult response = Unauthorized();
-            UserModel user = this._authentication.Login(login);
+            var user =service.Login(login);
             if (user != null)
             {
                 string token= TokenManager.GenerateToken(new UserModel()
